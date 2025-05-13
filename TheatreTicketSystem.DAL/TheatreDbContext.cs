@@ -26,37 +26,43 @@ namespace TheatreTicketSystem.DAL
             modelBuilder.Entity<Performance>()
                 .HasOne(p => p.Author)
                 .WithMany(a => a.Performances)
-                .HasForeignKey(p => p.AuthorId);
+                .HasForeignKey(p => p.AuthorId)
+                .OnDelete(DeleteBehavior.Restrict); // Змінено з Cascade на Restrict
 
             // Зв'язок Performance - Genre (M:1)
             modelBuilder.Entity<Performance>()
                 .HasOne(p => p.Genre)
                 .WithMany(g => g.Performances)
-                .HasForeignKey(p => p.GenreId);
+                .HasForeignKey(p => p.GenreId)
+                .OnDelete(DeleteBehavior.Restrict); // Змінено з Cascade на Restrict
 
             // Зв'язок Performance - Hall (M:1)
             modelBuilder.Entity<Performance>()
                 .HasOne(p => p.Hall)
                 .WithMany(h => h.Performances)
-                .HasForeignKey(p => p.HallId);
+                .HasForeignKey(p => p.HallId)
+                .OnDelete(DeleteBehavior.Restrict); // Змінено з Cascade на Restrict
 
             // Зв'язок Seat - Hall (M:1)
             modelBuilder.Entity<Seat>()
                 .HasOne(s => s.Hall)
                 .WithMany(h => h.Seats)
-                .HasForeignKey(s => s.HallId);
+                .HasForeignKey(s => s.HallId)
+                .OnDelete(DeleteBehavior.Restrict); // Змінено з Cascade на Restrict
 
             // Зв'язок Ticket - Performance (M:1)
             modelBuilder.Entity<Ticket>()
                 .HasOne(t => t.Performance)
                 .WithMany(p => p.Tickets)
-                .HasForeignKey(t => t.PerformanceId);
+                .HasForeignKey(t => t.PerformanceId)
+                .OnDelete(DeleteBehavior.Restrict); // Змінено з Cascade на Restrict
 
             // Зв'язок Ticket - Seat (M:1)
             modelBuilder.Entity<Ticket>()
                 .HasOne(t => t.Seat)
                 .WithMany(s => s.Tickets)
-                .HasForeignKey(t => t.SeatId);
+                .HasForeignKey(t => t.SeatId)
+                .OnDelete(DeleteBehavior.Restrict); // Змінено з Cascade на Restrict
         }
     }
 }

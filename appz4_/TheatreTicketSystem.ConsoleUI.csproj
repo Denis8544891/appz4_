@@ -16,4 +16,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TheatreTicketSystem.BLL\TheatreTicketSystem.BLL.csproj" />
+    <ProjectReference Include="..\TheatreTicketSystem.DAL\TheatreTicketSystem.DAL.csproj" />
+  </ItemGroup>
+
 </Project>
