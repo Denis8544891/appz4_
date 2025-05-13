@@ -1,18 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Net.Sockets;
-using System;
 using TheatreTicketSystem.DAL.Entities;
 
 namespace TheatreTicketSystem.DAL
 {
     public class TheatreDbContext : DbContext
     {
-        public DbSet<Performance> Performances { get; set; }
-        public DbSet<Ticket> Tickets { get; set; }
-        public DbSet<Hall> Halls { get; set; }
-        public DbSet<Seat> Seats { get; set; }
-        public DbSet<Genre> Genres { get; set; }
         public DbSet<Author> Authors { get; set; }
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<Hall> Halls { get; set; }
+        public DbSet<Performance> Performances { get; set; }
+        public DbSet<Seat> Seats { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
 
         public TheatreDbContext(DbContextOptions<TheatreDbContext> options) : base(options)
         {
@@ -20,51 +18,45 @@ namespace TheatreTicketSystem.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Конфігурація зв'язків між сутностями
+            base.OnModelCreating(modelBuilder);
 
-            // Зв'язок Performance - Hall (багато до одного)
-            modelBuilder.Entity<Performance>()
-                .HasOne(p => p.Hall)
-                .WithMany(h => h.Performances)
-                .HasForeignKey(p => p.HallId)
-                .OnDelete(DeleteBehavior.Restrict);
+            // Налаштування зв'язків між сутностями
 
-            // Зв'язок Performance - Genre (багато до одного)
-            modelBuilder.Entity<Performance>()
-                .HasOne(p => p.Genre)
-                .WithMany(g => g.Performances)
-                .HasForeignKey(p => p.GenreId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // Зв'язок Performance - Author (багато до одного)
+            // Зв'язок Performance - Author (M:1)
             modelBuilder.Entity<Performance>()
                 .HasOne(p => p.Author)
                 .WithMany(a => a.Performances)
-                .HasForeignKey(p => p.AuthorId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(p => p.AuthorId);
 
-            // Зв'язок Ticket - Performance (багато до одного)
-            modelBuilder.Entity<Ticket>()
-                .HasOne(t => t.Performance)
-                .WithMany(p => p.Tickets)
-                .HasForeignKey(t => t.PerformanceId)
-                .OnDelete(DeleteBehavior.Cascade);
+            // Зв'язок Performance - Genre (M:1)
+            modelBuilder.Entity<Performance>()
+                .HasOne(p => p.Genre)
+                .WithMany(g => g.Performances)
+                .HasForeignKey(p => p.GenreId);
 
-            // Зв'язок Ticket - Seat (багато до одного)
-            modelBuilder.Entity<Ticket>()
-                .HasOne(t => t.Seat)
-                .WithMany(s => s.Tickets)
-                .HasForeignKey(t => t.SeatId)
-                .OnDelete(DeleteBehavior.Restrict);
+            // Зв'язок Performance - Hall (M:1)
+            modelBuilder.Entity<Performance>()
+                .HasOne(p => p.Hall)
+                .WithMany(h => h.Performances)
+                .HasForeignKey(p => p.HallId);
 
-            // Зв'язок Seat - Hall (багато до одного)
+            // Зв'язок Seat - Hall (M:1)
             modelBuilder.Entity<Seat>()
                 .HasOne(s => s.Hall)
                 .WithMany(h => h.Seats)
-                .HasForeignKey(s => s.HallId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(s => s.HallId);
 
-            base.OnModelCreating(modelBuilder);
+            // Зв'язок Ticket - Performance (M:1)
+            modelBuilder.Entity<Ticket>()
+                .HasOne(t => t.Performance)
+                .WithMany(p => p.Tickets)
+                .HasForeignKey(t => t.PerformanceId);
+
+            // Зв'язок Ticket - Seat (M:1)
+            modelBuilder.Entity<Ticket>()
+                .HasOne(t => t.Seat)
+                .WithMany(s => s.Tickets)
+                .HasForeignKey(t => t.SeatId);
         }
     }
 }

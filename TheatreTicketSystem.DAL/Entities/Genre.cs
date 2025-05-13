@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TheatreTicketSystem.DAL.Entities
 {
@@ -10,11 +8,13 @@ namespace TheatreTicketSystem.DAL.Entities
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [MaxLength(50)]
         public string Name { get; set; }
 
-        // Навігаційні властивості
-        public ICollection<Performance> Performances { get; set; } = new List<Performance>();
-    }
+        [MaxLength(500)]
+        public string Description { get; set; }
 
+        // Навігаційна властивість для зв'язку з виставами
+        public virtual ICollection<Performance> Performances { get; set; } = new List<Performance>();
+    }
 }

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Net.Sockets;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TheatreTicketSystem.DAL.Entities
 {
@@ -11,28 +9,34 @@ namespace TheatreTicketSystem.DAL.Entities
         public int Id { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [MaxLength(200)]
         public string Title { get; set; }
 
-        [Required]
-        public DateTime Date { get; set; }
+        [MaxLength(1000)]
+        public string Description { get; set; }
 
-        [Required]
-        public decimal Price { get; set; }
+        public DateTime PerformanceDate { get; set; }
 
-        [Required]
+        public TimeSpan Duration { get; set; }
+
+        [Range(0, 10000)]
+        public decimal BasePrice { get; set; }
+
+        // Зовнішні ключі
+        public int AuthorId { get; set; }
+        public int GenreId { get; set; }
         public int HallId { get; set; }
 
-        [Required]
-        public int GenreId { get; set; }
-
-        [Required]
-        public int AuthorId { get; set; }
-
         // Навігаційні властивості
-        public Hall Hall { get; set; }
-        public Genre Genre { get; set; }
-        public Author Author { get; set; }
-        public ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
+        [ForeignKey("AuthorId")]
+        public virtual Author Author { get; set; }
+
+        [ForeignKey("GenreId")]
+        public virtual Genre Genre { get; set; }
+
+        [ForeignKey("HallId")]
+        public virtual Hall Hall { get; set; }
+
+        public virtual ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
     }
 }

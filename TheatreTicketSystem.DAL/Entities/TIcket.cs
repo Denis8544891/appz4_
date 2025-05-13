@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TheatreTicketSystem.DAL.Entities
 {
@@ -9,22 +8,22 @@ namespace TheatreTicketSystem.DAL.Entities
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        public int PerformanceId { get; set; }
+        public DateTime PurchaseDate { get; set; }
 
-        [Required]
-        public int SeatId { get; set; }
-
-        [Required]
-        public bool IsSold { get; set; } = false;
-
-        [Required]
+        [Range(0, 10000)]
         public decimal Price { get; set; }
 
-        public DateTime? PurchaseDate { get; set; }
+        public bool IsSold { get; set; }
+
+        // Зовнішні ключі
+        public int PerformanceId { get; set; }
+        public int SeatId { get; set; }
 
         // Навігаційні властивості
-        public Performance Performance { get; set; }
-        public Seat Seat { get; set; }
+        [ForeignKey("PerformanceId")]
+        public virtual Performance Performance { get; set; }
+
+        [ForeignKey("SeatId")]
+        public virtual Seat Seat { get; set; }
     }
 }

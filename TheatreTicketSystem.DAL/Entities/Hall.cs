@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+
 namespace TheatreTicketSystem.DAL.Entities
 {
     public class Hall
@@ -9,14 +8,17 @@ namespace TheatreTicketSystem.DAL.Entities
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [MaxLength(100)]
         public string Name { get; set; }
 
         [Range(1, 1000)]
         public int Capacity { get; set; }
 
+        [MaxLength(500)]
+        public string Description { get; set; }
+
         // Навігаційні властивості
-        public ICollection<Performance> Performances { get; set; } = new List<Performance>();
-        public ICollection<Seat> Seats { get; set; } = new List<Seat>();
+        public virtual ICollection<Performance> Performances { get; set; } = new List<Performance>();
+        public virtual ICollection<Seat> Seats { get; set; } = new List<Seat>();
     }
 }

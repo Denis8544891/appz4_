@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35806.99 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "appz4_", "appz4_\appz4_.csproj", "{B9C5749D-FEE7-473E-91C6-5983126EFC9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheatreTicketSystem.UI", "appz4_\TheatreTicketSystem.UI.csproj", "{B9C5749D-FEE7-473E-91C6-5983126EFC9C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheatreTicketSystem.DAL", "TheatreTicketSystem.DAL\TheatreTicketSystem.DAL.csproj", "{CBC066D9-4560-4212-9AE0-CAD6E8D6E015}"
 EndProject
