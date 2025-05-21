@@ -3,7 +3,6 @@ using TheatreTicketSystem.DAL.Entities;
 
 namespace TheatreTicketSystem.DAL.Repositories
 {
-    // Репозиторій для роботи з жанрами
     public class GenreRepository : Repository<Genre>, IGenreRepository
     {
         public GenreRepository(TheatreDbContext context) : base(context)

@@ -3,7 +3,6 @@ using TheatreTicketSystem.DAL.Entities;
 
 namespace TheatreTicketSystem.DAL.Repositories
 {
-    // Репозиторій для роботи з місцями
     public class SeatRepository : Repository<Seat>, ISeatRepository
     {
         public SeatRepository(TheatreDbContext context) : base(context)
