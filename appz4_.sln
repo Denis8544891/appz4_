@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35806.99 d17.13
+VisualStudioVersion = 17.13.35806.99
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheatreTicketSystem.ConsoleUI", "appz4_\TheatreTicketSystem.ConsoleUI.csproj", "{B9C5749D-FEE7-473E-91C6-5983126EFC9C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheatreTicketSystem.DAL", "TheatreTicketSystem.DAL\TheatreTicketSystem.DAL.csproj", "{CBC066D9-4560-4212-9AE0-CAD6E8D6E015}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheatreTicketSystem.BLL", "TheatreTicketSystem.BLL\TheatreTicketSystem.BLL.csproj", "{5600DC30-1A84-4619-9970-5AD2ECCA7195}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheatreTicketSystem.Tests", "TheatreTicketSystem.Tests\TheatreTicketSystem.Tests.csproj", "{325FC4CE-FC51-4D9E-A471-4DA4C71C83AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{5600DC30-1A84-4619-9970-5AD2ECCA7195}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5600DC30-1A84-4619-9970-5AD2ECCA7195}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5600DC30-1A84-4619-9970-5AD2ECCA7195}.Release|Any CPU.Build.0 = Release|Any CPU
+		{325FC4CE-FC51-4D9E-A471-4DA4C71C83AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{325FC4CE-FC51-4D9E-A471-4DA4C71C83AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{325FC4CE-FC51-4D9E-A471-4DA4C71C83AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{325FC4CE-FC51-4D9E-A471-4DA4C71C83AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

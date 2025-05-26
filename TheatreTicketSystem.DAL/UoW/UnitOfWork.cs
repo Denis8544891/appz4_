@@ -1,5 +1,4 @@
-﻿using TheatreTicketSystem.DAL.Entities;
-using TheatreTicketSystem.DAL.Repositories;
+﻿using TheatreTicketSystem.DAL.Repositories;
 
 namespace TheatreTicketSystem.DAL.UoW
 {

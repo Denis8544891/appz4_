@@ -1,8 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using TheatreTicketSystem.BLL.Services;
-using TheatreTicketSystem.DAL;
-using TheatreTicketSystem.DAL.Repositories;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using TheatreTicketSystem.ConsoleUI.Configuration;
 
 namespace TheatreTicketSystem.ConsoleUI
 {
@@ -12,59 +10,71 @@ namespace TheatreTicketSystem.ConsoleUI
 
         static void Main(string[] args)
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-            RegisterServices();
+            try
+            {
+                // Налаштування консолі
+                Console.OutputEncoding = System.Text.Encoding.UTF8;
+                Console.Title = "Theatre Ticket Management System";
 
-            var mainMenu = new MainMenu(_serviceProvider);
-            mainMenu.Show();
+                // Налаштування DI контейнера
+                _serviceProvider = ServiceConfiguration.ConfigureServices();
 
-            DisposeServices();
+                Console.WriteLine("Application starting...");
+
+                // Ініціалізація бази даних
+                ServiceConfiguration.EnsureDatabaseCreated(_serviceProvider);
+
+                // Запуск головного меню
+                RunApplication();
+
+                Console.WriteLine("Application finished successfully");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Critical error occurred: {ex.Message}");
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey();
+            }
+            finally
+            {
+                DisposeServices();
+            }
         }
 
-        private static void RegisterServices()
+        private static void RunApplication()
         {
-            var services = new ServiceCollection();
+            try
+            {
+                using var scope = _serviceProvider.CreateScope();
+                var mainMenu = scope.ServiceProvider.GetRequiredService<MainMenu>();
 
-            // Реєстрація DbContext
-            services.AddDbContext<TheatreDbContext>(options =>
-                options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=TheatreTicketSystem;Trusted_Connection=True;"));
-
-            // Реєстрація репозиторіїв
-            services.AddScoped<IAuthorRepository, AuthorRepository>();
-            services.AddScoped<IGenreRepository, GenreRepository>();
-            services.AddScoped<IHallRepository, HallRepository>();
-            services.AddScoped<IPerformanceRepository, PerformanceRepository>();
-            services.AddScoped<ISeatRepository, SeatRepository>();
-            services.AddScoped<ITicketRepository, TicketRepository>();
-
-            // Реєстрація сервісів
-            services.AddScoped<AuthorService>();
-            services.AddScoped<GenreService>();
-            services.AddScoped<HallService>();
-            services.AddScoped<PerformanceService>();
-            services.AddScoped<SeatService>();
-            services.AddScoped<TicketService>();
-
-            _serviceProvider = services.BuildServiceProvider();
-
-            // Створення бази даних при першому запуску
-            var dbContext = _serviceProvider.GetRequiredService<TheatreDbContext>();
-
-            // Видаляємо базу даних, якщо вона існує, і створюємо знову
-            dbContext.Database.EnsureDeleted();
-            dbContext.Database.EnsureCreated();
+                Console.WriteLine("Starting main menu...");
+                mainMenu.Show();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occurred while running application: {ex.Message}");
+                throw;
+            }
         }
 
         private static void DisposeServices()
         {
             if (_serviceProvider == null)
-            {
                 return;
-            }
 
-            if (_serviceProvider is IDisposable disposable)
+            try
             {
-                disposable.Dispose();
+                Console.WriteLine("Disposing services...");
+
+                if (_serviceProvider is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during cleanup: {ex.Message}");
             }
         }
     }
