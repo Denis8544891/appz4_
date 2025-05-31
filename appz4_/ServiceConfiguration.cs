@@ -14,7 +14,7 @@ namespace TheatreTicketSystem.ConsoleUI.Configuration
         {
             var services = new ServiceCollection();
 
-            // Connection string прямо в коді
+            // Connection string 
             var connectionString = "Server=(localdb)\\mssqllocaldb;Database=TheatreTicketSystem;Trusted_Connection=True;TrustServerCertificate=True;";
 
             // Реєстрація DbContext без логування
