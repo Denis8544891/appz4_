@@ -1,40 +1,45 @@
 using Microsoft.EntityFrameworkCore;
-using TheatreTicketSystem.DAL.UoW;
-using TheatreTicketSystem.DAL.Repositories;
 using TheatreTicketSystem.BLL.Services;
 using TheatreTicketSystem.DAL;
+using TheatreTicketSystem.DAL.UoW;
+using TheatreTicketSystem.DAL.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Database Context
+// Database Context - використовуємо SQLite для простоти
 builder.Services.AddDbContext<TheatreDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlite("Data Source=theatre.db"));
 
-// Unit of Work
+// Dependency Injection
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-// Repositories
-builder.Services.AddScoped<ITicketRepository, TicketRepository>();
-builder.Services.AddScoped<ISeatRepository, SeatRepository>();
-builder.Services.AddScoped<IPerformanceRepository, PerformanceRepository>();
-builder.Services.AddScoped<IHallRepository, HallRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
-
-// Services
-builder.Services.AddScoped<TicketService>();
-builder.Services.AddScoped<SeatService>();
-builder.Services.AddScoped<PerformanceService>();
-builder.Services.AddScoped<HallService>();
+builder.Services.AddScoped<IPerformanceRepository, PerformanceRepository>();
+builder.Services.AddScoped<IHallRepository, HallRepository>();
+builder.Services.AddScoped<ISeatRepository, SeatRepository>();
+builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddScoped<AuthorService>();
 builder.Services.AddScoped<GenreService>();
+builder.Services.AddScoped<PerformanceService>();
+builder.Services.AddScoped<HallService>();
+builder.Services.AddScoped<SeatService>();
+builder.Services.AddScoped<TicketService>();
 
 var app = builder.Build();
+
+// Ensure database is created
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<TheatreDbContext>();
+    context.Database.EnsureCreated();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -44,7 +49,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();
